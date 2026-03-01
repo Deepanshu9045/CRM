@@ -1,14 +1,21 @@
 import React from "react";
 
 type BadgeVariant = "default" | "success" | "warning" | "error" | "info" | "neutral";
+type BadgeSize = "sm" | "md";
 
 interface ZestBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
     variant?: BadgeVariant;
+    size?: BadgeSize;
     children: React.ReactNode;
 }
 
-export function ZestBadge({ variant = "default", className = "", children, ...props }: ZestBadgeProps) {
-    const baseStyles = "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2";
+export function ZestBadge({ variant = "default", size = "md", className = "", children, ...props }: ZestBadgeProps) {
+    const baseStyles = "inline-flex items-center rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2";
+
+    const sizes: Record<BadgeSize, string> = {
+        sm: "px-2 py-0.5 text-[10px]",
+        md: "px-2.5 py-0.5 text-xs",
+    };
 
     const variants: Record<BadgeVariant, string> = {
         default: "bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300",
@@ -20,7 +27,7 @@ export function ZestBadge({ variant = "default", className = "", children, ...pr
     };
 
     return (
-        <span className={`${baseStyles} ${variants[variant]} ${className}`} {...props}>
+        <span className={`${baseStyles} ${sizes[size]} ${variants[variant]} ${className}`} {...props}>
             {children}
         </span>
     );
